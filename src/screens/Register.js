@@ -40,7 +40,6 @@ function Register({ form: { getFieldDecorator, validateFields } }) {
                 firstname
                 lastname
                 email
-                password
                 role
             }
         }
