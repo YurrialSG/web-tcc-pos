@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Paper, Box, Grid, Typography } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 import { useMutation } from 'react-apollo'
@@ -52,10 +52,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function Login({ form: { getFieldDecorator, validateFields, setFields } }) {
+function Login() {
     const classes = useStyles()
 
     const history = useHistory()
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const [mutate] = useMutation(gql`
     mutation signin($email: String! $password: String!) {
@@ -69,50 +72,45 @@ function Login({ form: { getFieldDecorator, validateFields, setFields } }) {
                 }
             }
         }
-    `)
+    `);
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
 
-        validateFields(async (err, values) => {
-            if (!err) {
-                const { data } = await mutate({
-                    variables: {
-                        email: values.email,
-                        password: values.password
-                    }
-                })
-
-                if (!data.signin) {
-                    notification.error({
-                        message: `Error`,
-                        description: `Dados inválidos, tente novamente com outros dados`,
-                        duration: 4,
-                        placement: "topLeft",
-                    })
-                    return
-                }
-
-                if (data.signin.token) {
-                    localStorage.setItem('token', data.signin.token)
-                    localStorage.setItem('user', JSON.stringify(data.signin.user))
-                    notification.open({
-                        message: `Web TCC Pos`,
-                        description: `Olá ${data.signin.user.firstname}, você está logado no sistema!`,
-                        duration: 10,
-                        icon: <Icon type="smile" style={{ color: '#108ee9' }} />,
-                        style: {
-                            width: 500,
-                            marginLeft: 100 - 200,
-                            marginTop: 10,
-                        },
-                    })
-                    history.push('/home')
-                    return
-                }
+        const { data } = await mutate({
+            variables: {
+                email: email,
+                password: password
             }
-            console.log(`Error: ${err}`)
         })
+
+        if (!data.signin) {
+            notification.error({
+                message: `Error`,
+                description: `Dados inválidos, tente novamente com outros dados`,
+                duration: 4,
+                placement: "topLeft",
+            })
+            return
+        }
+
+        if (data.signin.token) {
+            localStorage.setItem('token', data.signin.token)
+            localStorage.setItem('user', JSON.stringify(data.signin.user))
+            notification.open({
+                message: `Web TCC Pos`,
+                description: `Olá ${data.signin.user.firstname}, você está logado no sistema!`,
+                duration: 10,
+                icon: <Icon type="smile" style={{ color: '#108ee9' }} />,
+                style: {
+                    width: 500,
+                    marginLeft: 100 - 200,
+                    marginTop: 10,
+                },
+            })
+            history.push('/home')
+            return
+        }
     }
 
     return (
@@ -128,32 +126,32 @@ function Login({ form: { getFieldDecorator, validateFields, setFields } }) {
                         Sign in
           </Typography>
                     <Form className={classes.form} onSubmit={handleSubmit} noValidate>
-                        {getFieldDecorator('email')(
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                            />,
-                        )}
-                        {getFieldDecorator('password')(
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                            />,
-                        )}
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                            autoFocus
+                        />,
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            autoComplete="current-password"
+                        />,
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"

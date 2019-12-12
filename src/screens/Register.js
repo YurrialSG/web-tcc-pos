@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, Button, TextField, Grid, Typography, makeStyles, Container } from '@material-ui/core/';
 import { Link, useHistory } from 'react-router-dom'
 import { Form, notification } from 'antd';
@@ -33,6 +33,11 @@ function Register({ form: { getFieldDecorator, validateFields } }) {
 
     const history = useHistory()
 
+    const [firstname, setFirstname] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     const [mutate] = useMutation(gql`
         mutation createUser($data: CreateUserInput!) {
             createUser(data: $data) {
@@ -45,25 +50,27 @@ function Register({ form: { getFieldDecorator, validateFields } }) {
         }
     `)
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
 
-        validateFields(async (err, values) => {
-            if (!err) {
-                const { errors } = await mutate({
-                    variables: {
-                        data: { ...values, role: "ADMIN" }
-                    }
-                })
-
-                if (!errors) {
-                    notification.success({
-                        message: 'Usuário cadastrado com sucesso!'
-                    })
-                    history.push('/login')
+        const { errors } = await mutate({
+            variables: {
+                data: {
+                    firstname: firstname,
+                    lastname: lastname,
+                    email: email,
+                    password: password,
+                    role: "ADMIN"
                 }
             }
         })
+
+        if (!errors) {
+            notification.success({
+                message: 'Usuário cadastrado com sucesso!'
+            })
+            history.push('/login')
+        }
     }
 
     return (
@@ -78,58 +85,58 @@ function Register({ form: { getFieldDecorator, validateFields } }) {
                 <Form className={classes.form} onSubmit={handleSubmit} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
-                            {getFieldDecorator('firstname')(
-                                <TextField
-                                    autoComplete="fname"
-                                    name="firstname"
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="firstname"
-                                    label="First Name"
-                                    autoFocus
-                                />
-                            )}
+                            <TextField
+                                value={firstname}
+                                onChange={e => setFirstname(e.target.value)}
+                                autoComplete="fname"
+                                name="firstname"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="firstname"
+                                label="First Name"
+                                autoFocus
+                            />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            {getFieldDecorator('lastname')(
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="lastname"
-                                    label="Last Name"
-                                    name="lastname"
-                                    autoComplete="lname"
-                                />
-                            )}
+                            <TextField
+                                value={lastname}
+                                onChange={e => setLastname(e.target.value)}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="lastname"
+                                label="Last Name"
+                                name="lastname"
+                                autoComplete="lname"
+                            />
                         </Grid>
                         <Grid item xs={12}>
-                            {getFieldDecorator('email')(
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
-                                />
-                            )}
+                            <TextField
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                            />
                         </Grid>
                         <Grid item xs={12}>
-                            {getFieldDecorator('password')(
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="current-password"
-                                />
-                            )}
+                            <TextField
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                            />
                         </Grid>
                     </Grid>
                     <Button
