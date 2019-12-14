@@ -13,7 +13,7 @@ function Copyright() {
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" to="/">
-                Your Website
+                Pet Shop
       </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -83,6 +83,16 @@ function Login() {
                 password: password
             }
         })
+
+        if(data.signin.user.role !== 'ADMIN'){
+            notification.error({
+                message: `Error`,
+                description: `Usuário sem permissão de acesso`,
+                duration: 4,
+                placement: "topLeft",
+            })
+            return
+        }
 
         if (!data.signin) {
             notification.error({

@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function Register({ form: { getFieldDecorator, validateFields } }) {
+function Register() {
     const classes = useStyles();
 
     const history = useHistory()
