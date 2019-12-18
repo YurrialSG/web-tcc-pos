@@ -5,15 +5,30 @@ import { client } from './graphql/client';
 
 import Login from './screens/Login';
 import Register from './screens/Register';
+import HeaderMenu from './components/HeaderMenu';
 import Home from './screens/Home';
+import Pets from './screens/Pets';
+import Clients from './screens/Clients';
 
 function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
         <Switch>
-        <Route path="/home">
-            <Home />
+          <Route path="/clients">
+            <HeaderMenu>
+              <Clients />
+            </HeaderMenu>
+          </Route>
+          <Route path="/pets">
+            <HeaderMenu>
+              <Pets />
+            </HeaderMenu>
+          </Route>
+          <Route path="/home">
+            <HeaderMenu>
+              <Home />
+            </HeaderMenu>
           </Route>
           <Route path="/login">
             <Login />
