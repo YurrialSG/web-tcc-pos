@@ -1,12 +1,26 @@
 import React, { useState } from 'react';
-import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Paper, Box, Grid, Typography } from '@material-ui/core/';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+    TextField,
+    FormControlLabel,
+    Checkbox,
+    Paper,
+    Box,
+    Grid,
+    Typography,
+    Button
+} from '@material-ui/core/';
+import {
+    Root,
+    GridImage,
+    PaperDiv,
+    AvatarImage,
+    FormLogin
+} from './styles';
 import { useMutation } from 'react-apollo'
 import { Link, useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
-import { Form, Icon, notification } from 'antd';
-import image from "../images/background.jpg";
-import logo from '../images/logo.png'
+import { Icon, notification } from 'antd';
+import logo from '../../images/logo.png'
 
 function Copyright() {
     return (
@@ -21,40 +35,7 @@ function Copyright() {
     );
 }
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        height: '100vh',
-    },
-    image: {
-        backgroundImage: `url(${image})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-    },
-    paper: {
-        margin: theme.spacing(8, 4),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        width: 100,
-        height: 40,
-        backgroundColor: "#FFFFFF"
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-}));
-
-function Login() {
-    const classes = useStyles()
-
+function Index() {
     const history = useHistory()
 
     const [email, setEmail] = useState("");
@@ -84,7 +65,7 @@ function Login() {
             }
         })
 
-        if(data.signin.user.role !== 'ADMIN'){
+        if (data.signin.user.role !== 'ADMIN') {
             notification.error({
                 message: `Error`,
                 description: `Usuário sem permissão de acesso`,
@@ -124,18 +105,17 @@ function Login() {
     }
 
     return (
-        <Grid container component="main" className={classes.root}>
-            <CssBaseline />
-            <Grid item xs={false} sm={4} md={7} className={classes.image} />
+        <Root container component="main">
+            <GridImage item xs={false} sm={4} md={7} />
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
+                <PaperDiv>
+                    <AvatarImage>
                         <img src={logo} alt="logo" width="40" height="40" />
-                    </Avatar>
+                    </AvatarImage>
                     <Typography component="h1" variant="h5">
                         Sign in
           </Typography>
-                    <Form className={classes.form} onSubmit={handleSubmit} noValidate>
+                    <FormLogin onSubmit={handleSubmit} noValidate>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -148,7 +128,7 @@ function Login() {
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                             autoFocus
-                        />,
+                        />
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -161,7 +141,7 @@ function Login() {
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                             autoComplete="current-password"
-                        />,
+                        />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
@@ -170,9 +150,7 @@ function Login() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            // htmlType="submit"
                             color="primary"
-                            className={classes.submit}
                         >
                             Sign In
                         </Button>
@@ -189,11 +167,11 @@ function Login() {
                         <Box mt={5}>
                             <Copyright />
                         </Box>
-                    </Form>
-                </div>
+                    </FormLogin>
+                </PaperDiv>
             </Grid>
-        </Grid>
+        </Root>
     );
 }
 
-export default Form.create({ name: 'login' })(Login)
+export default Index

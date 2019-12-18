@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import { ApolloProvider } from 'react-apollo';
 import { client } from './graphql/client';
 
-import Login from './screens/Login';
+import Login from './screens/Login/index';
 import Register from './screens/Register';
 import HeaderMenu from './components/HeaderMenu';
 import Home from './screens/Home';
