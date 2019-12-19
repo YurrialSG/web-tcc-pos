@@ -110,7 +110,7 @@ function Index() {
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <PaperDiv>
                     <AvatarImage>
-                        <img src={logo} alt="logo" width="40" height="40" />
+                        <img src={logo} alt="logo" />
                     </AvatarImage>
                     <Typography component="h1" variant="h5">
                         Sign in

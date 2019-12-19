@@ -28,6 +28,8 @@ export const AvatarImage = styled(Avatar)`
 
     img {
         background-color: #FFFFFF;
+        width: 40px;
+        height: 40px;
     }
 `;
 

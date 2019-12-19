@@ -1,36 +1,13 @@
 import React, { useState } from 'react';
-import { Avatar, Button, TextField, Grid, Typography, makeStyles, Container } from '@material-ui/core/';
 import { Link, useHistory } from 'react-router-dom'
-import { Form, notification } from 'antd';
+import { notification } from 'antd';
 import { useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
-import logo from '../images/logo.png'
+import { Button, TextField, Grid, Typography, Container } from '@material-ui/core/';
+import { PaperDiv, AvatarImage, FormRegister } from './styles';
+import logo from '../../images/logo.png'
 
-const useStyles = makeStyles(theme => ({
-    paper: {
-        marginTop: theme.spacing(5),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        width: 100,
-        height: 40,
-        backgroundColor: "#FFFFFF"
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-}));
-
-function Register() {
-    const classes = useStyles();
-
+function Index() {
     const history = useHistory()
 
     const [firstname, setFirstname] = useState("");
@@ -75,14 +52,14 @@ function Register() {
 
     return (
         <Container component="main" maxWidth="xs">
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <img src={logo} alt="logo" width="40" height="40" />
-                </Avatar>
+            <PaperDiv>
+                <AvatarImage>
+                    <img src={logo} alt="logo" />
+                </AvatarImage>
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <Form className={classes.form} onSubmit={handleSubmit} noValidate>
+                <FormRegister onSubmit={handleSubmit} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -144,7 +121,6 @@ function Register() {
                         fullWidth
                         variant="contained"
                         color="primary"
-                        className={classes.submit}
                     >
                         Sign Up
                     </Button>
@@ -153,10 +129,10 @@ function Register() {
                             <Link to="/login">Already have an account? Sign in</Link>
                         </Grid>
                     </Grid>
-                </Form>
-            </div>
+                </FormRegister>
+            </PaperDiv>
         </Container>
     );
 }
 
-export default Form.create({ name: 'register' })(Register)
+export default Index
