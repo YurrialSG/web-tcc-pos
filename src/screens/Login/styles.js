@@ -1,10 +1,12 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Avatar, Grid } from '@material-ui/core/';
 import image from "../../images/background.jpg";
 import { Form } from 'antd';
+import { fade, nono } from './keyframes';
 
 export const Root = styled(Grid)`
     height: 100vh;
+    overflow: hidden;
 `;
 
 export const GridImage = styled(Grid)`
@@ -36,8 +38,9 @@ export const AvatarImage = styled(Avatar)`
 export const FormLogin = styled(Form)`
     width: 100;
     padding: 1em;
-
+    animation: ${fade} 0.5s;
     Button {
         margin: 2em 0em 2em 0em;
     }
+    animation: ${props => props.dark === "false" ? "" : css`${nono} 200ms linear`}
 `;

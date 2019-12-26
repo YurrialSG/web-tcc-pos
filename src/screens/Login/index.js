@@ -20,7 +20,7 @@ import { useMutation } from 'react-apollo'
 import { Link, useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { Icon, notification } from 'antd';
-import logo from '../../images/logo.png'
+import logo from '../../images/logo.png';
 
 function Copyright() {
     return (
@@ -36,10 +36,12 @@ function Copyright() {
 }
 
 function Index() {
+
     const history = useHistory()
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [submit, setSubmit] = useState(false);
 
     const [mutate] = useMutation(gql`
     mutation signin($email: String! $password: String!) {
@@ -58,49 +60,70 @@ function Index() {
     async function handleSubmit(e) {
         e.preventDefault()
 
-        const { data } = await mutate({
-            variables: {
-                email: email,
-                password: password
+        setSubmit(false)
+
+        if (email === "" || password === "") {
+            setSubmit(true)
+        } else {
+            const { error, data } = await mutate({
+                variables: {
+                    email: email,
+                    password: password
+                }
+            })
+            console.log(error)
+            if (!error) {
+                if (data.signin != null) {
+                    if (data.signin.user.role !== 'ADMIN') {
+                        notification.error({
+                            message: `Error`,
+                            description: `Usuário sem permissão de acesso`,
+                            duration: 4,
+                            placement: "topLeft",
+                        })
+                        return
+                    }
+
+                    if (!data.signin) {
+                        notification.error({
+                            message: `Error`,
+                            description: `Dados inválidos, tente novamente com outros dados`,
+                            duration: 4,
+                            placement: "topLeft",
+                        })
+                        return
+                    }
+
+                    if (data.signin.token) {
+                        localStorage.setItem('token', data.signin.token)
+                        localStorage.setItem('user', JSON.stringify(data.signin.user))
+                        notification.open({
+                            message: `Web TCC Pos`,
+                            description: `Olá ${data.signin.user.firstname}, você está logado no sistema!`,
+                            duration: 10,
+                            icon: <Icon type="smile" style={{ color: '#108ee9' }} />,
+                            style: {
+                                width: 500,
+                                marginLeft: 100 - 200,
+                                marginTop: 10,
+                            },
+                        })
+                        history.push('/home')
+                        return
+                    }
+                } else {
+                    notification.error({
+                        message: `Error`,
+                        description: `Dados inválidos, tente novamente com outros dados`,
+                        duration: 4,
+                        style: {
+                            width: 500,
+                            marginLeft: 100 - 200,
+                            marginTop: 10,
+                        },
+                    })
+                }
             }
-        })
-
-        if (data.signin.user.role !== 'ADMIN') {
-            notification.error({
-                message: `Error`,
-                description: `Usuário sem permissão de acesso`,
-                duration: 4,
-                placement: "topLeft",
-            })
-            return
-        }
-
-        if (!data.signin) {
-            notification.error({
-                message: `Error`,
-                description: `Dados inválidos, tente novamente com outros dados`,
-                duration: 4,
-                placement: "topLeft",
-            })
-            return
-        }
-
-        if (data.signin.token) {
-            localStorage.setItem('token', data.signin.token)
-            localStorage.setItem('user', JSON.stringify(data.signin.user))
-            notification.open({
-                message: `Web TCC Pos`,
-                description: `Olá ${data.signin.user.firstname}, você está logado no sistema!`,
-                duration: 10,
-                icon: <Icon type="smile" style={{ color: '#108ee9' }} />,
-                style: {
-                    width: 500,
-                    marginLeft: 100 - 200,
-                    marginTop: 10,
-                },
-            })
-            history.push('/home')
-            return
         }
     }
 
@@ -115,7 +138,7 @@ function Index() {
                     <Typography component="h1" variant="h5">
                         Sign in
           </Typography>
-                    <FormLogin onSubmit={handleSubmit} noValidate>
+                    <FormLogin onSubmit={handleSubmit} dark={submit === false ? "false" : "true"} noValidate>
                         <TextField
                             variant="outlined"
                             margin="normal"

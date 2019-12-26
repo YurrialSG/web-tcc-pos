@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Avatar } from '@material-ui/core/';
 import { Form } from 'antd';
+import { fade } from './keyframes';
 
 export const PaperDiv = styled.div`
     padding: 5;
@@ -23,6 +24,7 @@ export const AvatarImage = styled(Avatar)`
 export const FormRegister = styled(Form)`
     width: 100%;
     margin: 1em;
+    animation: ${fade} 0.5s;
 
     Button {
         margin: 2em 0em 2em 0em;
