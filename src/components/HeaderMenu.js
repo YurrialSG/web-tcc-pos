@@ -42,9 +42,8 @@ const useStyles = makeStyles(theme => ({
   },
 
   divNameButton: {
-    position: "absolute",
-    top: 0,
-    right: 10,
+    float: "right",
+    marginRight: 20,
     textAlign: "right"
   },
 
@@ -101,7 +100,11 @@ function HeaderMenu({ children }) {
           <Avatar className={classes.avatar}>
             <img src={logo} alt="logo" width="40" height="40" />
           </Avatar>
-          <span className={classes.nameLogo}>Pata Marca</span>
+          {collapsed ?
+            <span className={classes.nameLogo}></span>
+            :
+            <span className={classes.nameLogo}>Pata Marca</span>
+          }
         </div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
           <Menu.Item key="1" onClick={handlePageHome}>

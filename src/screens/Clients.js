@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Icon, Divider, Table, Button, notification, Popconfirm } from 'antd'
 import { useQuery, useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import InputClients from '../components/InputClients/index'
 
 function Clients() {
 
@@ -12,6 +13,11 @@ function Clients() {
             key: 'firstname',
         },
         {
+            title: 'Sobrenome',
+            dataIndex: 'lastname',
+            key: 'lastname',
+        },
+        {
             title: 'E-mail',
             dataIndex: 'email',
             key: 'email',
@@ -19,7 +25,17 @@ function Clients() {
         {
             title: 'Endereço',
             dataIndex: 'address.street',
-            key: 'address',
+            key: 'address.street',
+        },
+        {
+            title: 'Número',
+            dataIndex: 'address.number',
+            key: 'address.number',
+        },
+        {
+            title: 'CEP',
+            dataIndex: 'address.zip_code',
+            key: 'address.zip_code',
         },
         {
             title: 'Ações',
@@ -92,9 +108,23 @@ function Clients() {
 
     return (
         <>
-            <Button type="primary" onClick={() => setActive(true)} style={{ marginBottom: 16 }}>
-                Adicionar
-            </Button>
+            {active ?
+                <>
+                    <Button type="danger" onClick={() => setActive(false)} 
+                    style={{ 
+                        marginBottom: 0, 
+                        float: "right",
+                        textAlign: "right"
+                        }}>
+                        X
+                    </Button>
+                    <InputClients />
+                </>
+                :
+                <Button type="primary" onClick={() => setActive(true)} style={{ marginBottom: 16 }}>
+                    Adicionar
+                </Button>
+            }
             <Table rowKey="uid" dataSource={data && data.allUsers} loading={loading} columns={columns} pagination={true} />
         </>
     )
