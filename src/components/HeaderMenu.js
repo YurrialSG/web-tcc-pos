@@ -87,20 +87,34 @@ function HeaderMenu({ children }) {
   const classes = useStyles();
   const history = useHistory();
 
+  const names = [];
+
   const handleDrawer = () => {
     setCollapsed(!collapsed);
   };
 
   const handlePageHome = () => {
+    names.push("Home")
+    localStorage.setItem("locais", JSON.stringify(names));
     history.push("/home")
   };
 
   const handlePageClients = () => {
+    names.push("Home / Clients")
+    localStorage.setItem("locais", JSON.stringify(names));
     history.push("/clients")
   }
 
   const handlePagePets = () => {
+    names.push("Home / Pets")
+    localStorage.setItem("locais", JSON.stringify(names));
     history.push("/pets")
+  };
+
+  const handlePageServices = () => {
+    names.push("Home / Services")
+    localStorage.setItem("locais", JSON.stringify(names));
+    history.push("/services")
   };
 
   function handleLogout() {
@@ -135,7 +149,7 @@ function HeaderMenu({ children }) {
             <Icon type="video-camera" />
             <span>Pets</span>
           </Menu.Item>
-          <Menu.Item className={classes.menuItens} key="3">
+          <Menu.Item className={classes.menuItens} key="3" onClick={handlePageServices}>
             <Icon type="upload" />
             <span>Serviços</span>
           </Menu.Item>
@@ -164,8 +178,7 @@ function HeaderMenu({ children }) {
           </div>
         </Header>
         <Breadcrumb style={{ margin: '16px 0px 0px 16px' }}>
-          <Breadcrumb.Item>Login</Breadcrumb.Item>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>{JSON.parse(localStorage.getItem("locais"))}</Breadcrumb.Item>
         </Breadcrumb>
         <Content
           style={{

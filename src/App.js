@@ -9,12 +9,18 @@ import HeaderMenu from './components/HeaderMenu';
 import Home from './screens/Home';
 import Pets from './screens/Pets';
 import Clients from './screens/Clients';
+import Services from './screens/Services';
 
 function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
         <Switch>
+          <Route path="/services">
+            <HeaderMenu>
+              <Services />
+            </HeaderMenu>
+          </Route>
           <Route path="/clients">
             <HeaderMenu>
               <Clients />
