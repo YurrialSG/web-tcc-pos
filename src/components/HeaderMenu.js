@@ -9,6 +9,26 @@ const { Header, Sider, Content } = Layout;
 
 
 const useStyles = makeStyles(theme => ({
+  menuLateral: {
+    flex: 1,
+    backgroundColor: "#78909c",
+    height: '100vh'
+  },
+
+  menuButtons: {
+    backgroundColor: "#78909c",
+    color: "#4f5b62",
+  },
+
+  menuItens: {
+    backgroundColor: "#78909c",
+    color: "#4f5b62",
+    '&:hover': {
+      backgroundColor: "#f5f5f5",
+      color: "#000a12",
+    }
+  },
+
   trigger: {
     fontSize: 18,
     paddingLeft: 24,
@@ -38,7 +58,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   avatar: {
-    backgroundColor: "rgba(0,0,0,0.1)",
+    backgroundColor: "#FFFFFF",
   },
 
   divNameButton: {
@@ -95,7 +115,7 @@ function HeaderMenu({ children }) {
 
   return (
     <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider trigger={null} collapsible className={classes.menuLateral} collapsed={collapsed}>
         <div className={classes.divLogo}>
           <Avatar className={classes.avatar}>
             <img src={logo} alt="logo" width="40" height="40" />
@@ -106,20 +126,20 @@ function HeaderMenu({ children }) {
             <span className={classes.nameLogo}>Pata Marca</span>
           }
         </div>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1" onClick={handlePageHome}>
+        <Menu className={classes.menuButtons} mode="inline" defaultSelectedKeys={['1']}>
+          <Menu.Item className={classes.menuItens} key="1" onClick={handlePageHome}>
             <Icon type="user" />
             <span>Home</span>
           </Menu.Item>
-          <Menu.Item key="2" onClick={handlePagePets}>
+          <Menu.Item className={classes.menuItens} key="2" onClick={handlePagePets}>
             <Icon type="video-camera" />
             <span>Pets</span>
           </Menu.Item>
-          <Menu.Item key="3">
+          <Menu.Item className={classes.menuItens} key="3">
             <Icon type="upload" />
             <span>Serviços</span>
           </Menu.Item>
-          <Menu.Item key="4" onClick={handlePageClients}>
+          <Menu.Item className={classes.menuItens} key="4" onClick={handlePageClients}>
             <Icon type="upload" />
             <span>Clientes</span>
           </Menu.Item>
@@ -152,7 +172,6 @@ function HeaderMenu({ children }) {
             margin: '16px 0px 0px 0px',
             padding: 24,
             background: '#fff',
-            height: 473
           }}
         >
           {children}
