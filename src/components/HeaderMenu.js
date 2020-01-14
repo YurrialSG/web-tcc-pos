@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, Popconfirm } from 'antd';
 import { Button, Avatar } from '@material-ui/core/';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -99,6 +99,12 @@ function HeaderMenu({ children }) {
     history.push("/home")
   };
 
+  const handlePageAdmins = () => {
+    names.push("Home / Admins")
+    localStorage.setItem("locais", JSON.stringify(names));
+    history.push("/admins")
+  }
+
   const handlePageClients = () => {
     names.push("Home / Clients")
     localStorage.setItem("locais", JSON.stringify(names));
@@ -117,7 +123,7 @@ function HeaderMenu({ children }) {
     history.push("/services")
   };
 
-  function handleLogout() {
+  async function handleLogout() {
     if (localStorage.getItem('token')) {
       localStorage.removeItem('user')
       localStorage.removeItem('token')
@@ -157,6 +163,10 @@ function HeaderMenu({ children }) {
             <Icon type="upload" />
             <span>Clientes</span>
           </Menu.Item>
+          <Menu.Item className={classes.menuItens} key="5" onClick={handlePageAdmins}>
+            <Icon type="upload" />
+            <span>Administradores</span>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout style={{
@@ -170,11 +180,14 @@ function HeaderMenu({ children }) {
           />
           <div className={classes.divNameButton}>
             <span className={classes.nameUser}>Yuri Gonçalves da Silveira</span>
-            <Button className={classes.buttonLogout}
-              onClick={handleLogout}
-            >
-              Sair
-            </Button>
+            <Popconfirm title="Certeza que deseja sair?"
+              placement="topRight"
+              icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+              onConfirm={() => handleLogout()}>
+              <Button className={classes.buttonLogout}>
+                Sair
+              </Button>
+            </Popconfirm>
           </div>
         </Header>
         <Breadcrumb style={{ margin: '16px 0px 0px 16px' }}>

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Icon, Divider, Table, Button, notification, Popconfirm } from 'antd'
 import { useQuery, useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
-// import InputClients from '../components/InputClients/index'
+import InputClients from '../components/InputClients/index'
 
-function Clients() {
+function Admins() {
 
     const columns = [
         {
@@ -21,21 +21,6 @@ function Clients() {
             title: 'E-mail',
             dataIndex: 'email',
             key: 'email',
-        },
-        {
-            title: 'Endereço',
-            dataIndex: 'address.street',
-            key: 'address.street',
-        },
-        {
-            title: 'Número',
-            dataIndex: 'address.number',
-            key: 'address.number',
-        },
-        {
-            title: 'CEP',
-            dataIndex: 'address.zip_code',
-            key: 'address.zip_code',
         },
         {
             title: 'Ações',
@@ -63,7 +48,7 @@ function Clients() {
 
         if (!errors) {
             notification.success({
-                message: `Cliente: '${description}' excluido(a) com sucesso!`,
+                message: `Administrador: '${description}' excluido(a) com sucesso!`,
                 style: {
                     width: 500,
                     marginLeft: 100 - 200,
@@ -77,20 +62,13 @@ function Clients() {
     const [active, setActive] = useState(false)
 
     const { data, loading, refetch } = useQuery(gql`
-        query allUsers {
-            allUsers {
+        query allUsersAdmin {
+            allUsersAdmin {
                 id
                 firstname
                 lastname
                 email
                 role
-                address {
-                    id
-                    street
-                    number
-                    complement
-                    zip_code
-                }
             }
         }
     `)
@@ -118,17 +96,17 @@ function Clients() {
                         }}>
                         X
                     </Button>
-                    {/* <InputClients /> */}
+                    <InputClients />
                 </>
                 :
                 <Button type="primary" onClick={() => setActive(true)} style={{ marginBottom: 16 }}>
                     Adicionar
                 </Button>
             }
-            <Table rowKey="uid" dataSource={data && data.allUsers} loading={loading} columns={columns} 
+            <Table rowKey="uid" size="small" dataSource={data && data.allUsersAdmin} loading={loading} columns={columns} 
             pagination={{defaultPageSize: 5, pageSizeOptions: ['5', '10', '15', '20'], showSizeChanger: true}} />
         </>
     )
 }
 
-export default Clients
+export default Admins

@@ -138,7 +138,8 @@ function Services() {
 
     return (
         <>
-            <Table rowKey="uid" dataSource={data && data.allService} loading={loading} size="middle" columns={columns} pagination={{defaultPageSize: 5, pageSizeOptions: ['5', '10', '15', '20'], showSizeChanger: true}}  />
+            <Table rowKey="uid" dataSource={data && data.allService} loading={loading} size="middle" columns={columns} 
+            pagination={{defaultPageSize: 5, pageSizeOptions: ['5', '10', '15', '20'], showSizeChanger: true}}  />
         </>
     )
 }

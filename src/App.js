@@ -9,6 +9,7 @@ import HeaderMenu from './components/HeaderMenu';
 import Home from './screens/Home';
 import Pets from './screens/Pets';
 import Clients from './screens/Clients';
+import Admins from './screens/Admins';
 import Services from './screens/Services';
 
 function App() {
@@ -19,6 +20,11 @@ function App() {
           <Route path="/services">
             <HeaderMenu>
               <Services />
+            </HeaderMenu>
+          </Route>
+          <Route path="/admins">
+            <HeaderMenu>
+              <Admins />
             </HeaderMenu>
           </Route>
           <Route path="/clients">
