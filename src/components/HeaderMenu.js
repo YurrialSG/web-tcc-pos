@@ -179,7 +179,11 @@ function HeaderMenu({ children }) {
             onClick={handleDrawer}
           />
           <div className={classes.divNameButton}>
-            <span className={classes.nameUser}>Yuri Gonçalves da Silveira</span>
+            <span className={classes.nameUser}>{
+            JSON.parse(localStorage.getItem("user")).firstname
+            + " " +
+            JSON.parse(localStorage.getItem("user")).lastname
+            }</span>
             <Popconfirm title="Certeza que deseja sair?"
               placement="topRight"
               icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}

@@ -19,12 +19,6 @@ export const FormLogin = styled(Form)`
 export const Div = styled.div`
     margin: 0px 50px 0px 50px;
     padding-top: 25px;
-    /* box-shadow: 0 0 10px #eeeeee; */
-    
-    &:hover {
-        /* box-shadow: 0 5px 40px #e0e0e0; */
-        box-shadow: 0 0 10px #eeeeee;
-    }
 `;
 
 export const Titulo = styled.h2`

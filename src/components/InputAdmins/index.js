@@ -39,7 +39,7 @@ function Index() {
     }
 
     async function handleSubmit() {
-        const { errors } = await mutate({
+        const { errors, data } = await mutate({
             variables: {
                 data: {
                     firstname: firstname,
@@ -52,6 +52,7 @@ function Index() {
         })
 
         if (!errors) {
+            console.log(data)
             notification.success({
                 message: 'Usuário cadastrado com sucesso!'
             })

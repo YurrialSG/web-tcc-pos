@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Icon, Divider, Table, Button, notification, Popconfirm } from 'antd'
 import { useQuery, useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
-// import InputClients from '../components/InputClients/index'
+import InputClients from '../components/InputClients/index'
 
 function Clients() {
 
@@ -118,7 +118,7 @@ function Clients() {
                         }}>
                         X
                     </Button>
-                    {/* <InputClients /> */}
+                    <InputClients />
                 </>
                 :
                 <Button type="primary" onClick={() => setActive(true)} style={{ marginBottom: 16 }}>

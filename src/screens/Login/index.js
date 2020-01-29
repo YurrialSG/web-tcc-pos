@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import {
     TextField,
-    FormControlLabel,
-    Checkbox,
     Paper,
     Box,
     Grid,
@@ -19,7 +17,7 @@ import {
 import { useMutation } from 'react-apollo'
 import { Link, useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
-import { Icon, notification } from 'antd';
+import { notification } from 'antd';
 import logo from '../../images/logo.png';
 
 function Copyright() {
@@ -27,7 +25,7 @@ function Copyright() {
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" to="/">
-                Pet Shop
+                Pata Marca
       </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -97,17 +95,6 @@ function Index() {
                     if (data.signin.token) {
                         localStorage.setItem('token', data.signin.token)
                         localStorage.setItem('user', JSON.stringify(data.signin.user))
-                        notification.open({
-                            message: `Web TCC Pos`,
-                            description: `Olá ${data.signin.user.firstname}, você está logado no sistema!`,
-                            duration: 10,
-                            icon: <Icon type="smile" style={{ color: '#108ee9' }} />,
-                            style: {
-                                width: 500,
-                                marginLeft: 100 - 200,
-                                marginTop: 10,
-                            },
-                        })
                         history.push('/home')
                         return
                     }
@@ -165,10 +152,6 @@ function Index() {
                             onChange={e => setPassword(e.target.value)}
                             autoComplete="current-password"
                         />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
                         <Button
                             type="submit"
                             fullWidth
@@ -179,12 +162,9 @@ function Index() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link to="/" variant="body2">
-                                    Forgot password?
-                                </Link>
                             </Grid>
                             <Grid item>
-                                <Link to="/register">Don't have an account? Sign Up</Link>
+                                {/* <Link to="/register">Don't have an account? Sign Up</Link> */}
                             </Grid>
                         </Grid>
                         <Box mt={5}>

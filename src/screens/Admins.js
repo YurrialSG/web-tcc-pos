@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Icon, Divider, Table, Button, notification, Popconfirm } from 'antd'
 import { useQuery, useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
-import InputClients from '../components/InputClients/index'
+import InputAdmins from '../components/InputAdmins/index'
 
 function Admins() {
 
@@ -96,7 +96,7 @@ function Admins() {
                         }}>
                         X
                     </Button>
-                    <InputClients />
+                    <InputAdmins />
                 </>
                 :
                 <Button type="primary" onClick={() => setActive(true)} style={{ marginBottom: 16 }}>
