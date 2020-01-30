@@ -5,9 +5,9 @@ import gql from 'graphql-tag'
 import imgCat from '../images/cat.png';
 import imgDog from '../images/dog.png';
 
-function Home() {
+function Services() {
 
-    const columnsTablePendentes = [
+    const columns = [
         {
             title: 'Data',
             dataIndex: 'date',
@@ -39,13 +39,9 @@ function Home() {
             key: 'payment',
             render: payment => (
                 payment === 'AGUARDANDO' ?
-                    <>
-                        <Tag color={"purple"} key={payment} >
-                            {payment}
-                        </Tag >
-                        <Divider type="vertical" />
-                        <Button><Icon type="pay-circle" style={{ color: '#108ee9' }} /> Pagar</Button>
-                    </>
+                    <Tag color={"purple"} key={payment} >
+                        {payment}
+                    </Tag >
                     :
                     <Tag color={"cyan"} key={payment} >
                         {payment}
@@ -78,22 +74,41 @@ function Home() {
             key: 'action',
             render: (data) => (
                 <span>
-                    <Button><Icon type="play-circle" style={{ color: '#108ee9' }} /> Iniciar Atendimento</Button>
+                    <Button><Icon type="edit" style={{ color: '#108ee9' }} /></Button>
                     <Divider type="vertical" />
-                    <Popconfirm title="Certeza que deseja cancelar serviço?"
-                        placement="bottomRight"
-                        onConfirm={() => { }}
+                    <Popconfirm title="Certeza que deseja excluir?"
+                        onConfirm={() => handleDelete(data['id'], data['firstname'])}
                     >
-                        <Button><Icon type="close-circle" style={{ color: '#d32f2f' }} /> Cancelar</Button>
+                        <Button><Icon type="delete" style={{ color: '#108ee9' }} /></Button>
                     </Popconfirm>
                 </span>
             )
         },
     ];
 
-    const { data: dataPendente, loading, refetch } = useQuery(gql`
-        query allServicePendente {
-            allServicePendente {
+    async function handleDelete(id, description) {
+        // const { errors } = await mutationDelete({
+        //     variables: {
+        //         id: id
+        //     }
+        // })
+
+        // if (!errors) {
+        //     notification.success({
+        //         message: `Cliente: '${description}' excluido(a) com sucesso!`,
+        //         style: {
+        //             width: 500,
+        //             marginLeft: 100 - 200,
+        //             marginTop: 50,
+        //         },
+        //     })
+        //     refetch()
+        // }
+    }
+
+    const { data, loading, refetch } = useQuery(gql`
+        query allServiceConcluido {
+            allServiceConcluido {
                 id
                 date
                 schedule
@@ -110,6 +125,12 @@ function Home() {
         }
     `)
 
+    // const [mutationDelete] = useMutation(gql`
+    //     mutation deleteUser($id: ID!) {
+    //         deleteUser(id: $id)
+    //     }  
+    // `)
+
     useEffect(() => {
         refetch()
     }, [refetch])
@@ -117,11 +138,10 @@ function Home() {
 
     return (
         <>
-            <h2>Lista de Serviços Pendentes</h2>
-            <Table rowKey="uid" dataSource={dataPendente && dataPendente.allServicePendente} loading={loading} size="middle" columns={columnsTablePendentes}
-                pagination={{ defaultPageSize: 5, pageSizeOptions: ['5', '10'], showSizeChanger: true }} />
+            <Table rowKey="uid" dataSource={data && data.allServiceConcluido} loading={loading} size="middle" columns={columns} 
+            pagination={{defaultPageSize: 5, pageSizeOptions: ['5', '10', '15', '20'], showSizeChanger: true}}  />
         </>
     )
 }
 
-export default Home
+export default Services

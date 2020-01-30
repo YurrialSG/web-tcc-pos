@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Breadcrumb, Icon, Popconfirm } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, Popconfirm, Divider } from 'antd';
 import { Button, Avatar } from '@material-ui/core/';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 
   menuItens: {
     backgroundColor: "#78909c",
-    color: "#4f5b62",
+    color: "#4f5b60",
     '&:hover': {
       backgroundColor: "#f5f5f5",
       color: "#000a12",
@@ -123,6 +123,18 @@ function HeaderMenu({ children }) {
     history.push("/services")
   };
 
+  const handlePageHistory = () => {
+    names.push("Home / History")
+    localStorage.setItem("locais", JSON.stringify(names));
+    history.push("/history")
+  }
+
+  const handlePageCancel = () => {
+    names.push("Home / Cancel")
+    localStorage.setItem("locais", JSON.stringify(names));
+    history.push("/cancel")
+  }
+
   async function handleLogout() {
     if (localStorage.getItem('token')) {
       localStorage.removeItem('user')
@@ -148,23 +160,32 @@ function HeaderMenu({ children }) {
         </div>
         <Menu className={classes.menuButtons} mode="inline" defaultSelectedKeys={['1']}>
           <Menu.Item className={classes.menuItens} key="1" onClick={handlePageHome}>
-            <Icon type="user" />
+            <Icon type="home" />
             <span>Home</span>
           </Menu.Item>
-          <Menu.Item className={classes.menuItens} key="2" onClick={handlePagePets}>
-            <Icon type="video-camera" />
-            <span>Pets</span>
-          </Menu.Item>
-          <Menu.Item className={classes.menuItens} key="3" onClick={handlePageServices}>
-            <Icon type="upload" />
+          <Menu.Item className={classes.menuItens} key="2" onClick={handlePageServices}>
+            <Icon type="carry-out" />
             <span>Serviços</span>
           </Menu.Item>
+          <Menu.Item className={classes.menuItens} key="3" onClick={handlePagePets}>
+            <Icon type="bug" />
+            <span>Pets</span>
+          </Menu.Item>
           <Menu.Item className={classes.menuItens} key="4" onClick={handlePageClients}>
-            <Icon type="upload" />
+            <Icon type="user" />
             <span>Clientes</span>
           </Menu.Item>
-          <Menu.Item className={classes.menuItens} key="5" onClick={handlePageAdmins}>
-            <Icon type="upload" />
+          <Menu.Item className={classes.menuItens} key="5" onClick={handlePageCancel}>
+            <Icon type="history" />
+            <span>Serviços cancelados</span>
+          </Menu.Item>
+          <Menu.Item className={classes.menuItens} key="6" onClick={handlePageHistory}>
+            <Icon type="history" />
+            <span>Historico de Serviços</span>
+          </Menu.Item>
+          <Divider type="horizontal" />
+          <Menu.Item className={classes.menuItens} key="7" onClick={handlePageAdmins}>
+            <Icon type="dingding" />
             <span>Administradores</span>
           </Menu.Item>
         </Menu>

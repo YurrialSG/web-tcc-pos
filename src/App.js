@@ -11,12 +11,24 @@ import Pets from './screens/Pets';
 import Clients from './screens/Clients';
 import Admins from './screens/Admins';
 import Services from './screens/Services';
+import History from './screens/ServicesHistory';
+import Cancel from './screens/Cancel';
 
 function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
         <Switch>
+          <Route path="/cancel">
+            <HeaderMenu>
+              <Cancel />
+            </HeaderMenu>
+          </Route>
+          <Route path="/history">
+            <HeaderMenu>
+              <History />
+            </HeaderMenu>
+          </Route>
           <Route path="/services">
             <HeaderMenu>
               <Services />

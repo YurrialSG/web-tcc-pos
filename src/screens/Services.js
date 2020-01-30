@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Icon, Divider, Table, Button, Popconfirm, Tag } from 'antd'
+import { Icon, Divider, Table, Button, Tag } from 'antd'
 import { useQuery } from 'react-apollo'
 import gql from 'graphql-tag'
 import imgCat from '../images/cat.png';
@@ -7,7 +7,7 @@ import imgDog from '../images/dog.png';
 
 function Services() {
 
-    const columns = [
+    const columnsTableSala = [
         {
             title: 'Data',
             dataIndex: 'date',
@@ -39,9 +39,13 @@ function Services() {
             key: 'payment',
             render: payment => (
                 payment === 'AGUARDANDO' ?
-                    <Tag color={"purple"} key={payment} >
-                        {payment}
-                    </Tag >
+                    <>
+                        <Tag color={"purple"} key={payment} >
+                            {payment}
+                        </Tag >
+                        <Divider type="vertical" />
+                        <Button><Icon type="pay-circle" style={{ color: '#108ee9' }} /> Pagar</Button>
+                    </>
                     :
                     <Tag color={"cyan"} key={payment} >
                         {payment}
@@ -74,48 +78,22 @@ function Services() {
             key: 'action',
             render: (data) => (
                 <span>
-                    <Button><Icon type="edit" style={{ color: '#108ee9' }} /></Button>
-                    <Divider type="vertical" />
-                    <Popconfirm title="Certeza que deseja excluir?"
-                        onConfirm={() => handleDelete(data['id'], data['firstname'])}
-                    >
-                        <Button><Icon type="delete" style={{ color: '#108ee9' }} /></Button>
-                    </Popconfirm>
+                    <Button><Icon type="play-circle" style={{ color: '#108ee9' }} /> Realizar Banho e Tosa</Button>
                 </span>
             )
         },
     ];
 
-    async function handleDelete(id, description) {
-        // const { errors } = await mutationDelete({
-        //     variables: {
-        //         id: id
-        //     }
-        // })
-
-        // if (!errors) {
-        //     notification.success({
-        //         message: `Cliente: '${description}' excluido(a) com sucesso!`,
-        //         style: {
-        //             width: 500,
-        //             marginLeft: 100 - 200,
-        //             marginTop: 50,
-        //         },
-        //     })
-        //     refetch()
-        // }
-    }
-
-    const { data, loading, refetch } = useQuery(gql`
-        query allService {
-                        allService {
-                        id
+    const { data: dataSala, loadingSala, refetch } = useQuery(gql`
+        query allServiceSala {
+            allServiceSala {
+                id
                 date
-                    schedule
-                    status
-                    payment
+                schedule
+                status
+                payment
                 pet {
-                        id
+                    id
                     name
                     age
                     breed
@@ -125,21 +103,17 @@ function Services() {
         }
     `)
 
-    // const [mutationDelete] = useMutation(gql`
-    //     mutation deleteUser($id: ID!) {
-    //         deleteUser(id: $id)
-    //     }  
-    // `)
-
     useEffect(() => {
         refetch()
     }, [refetch])
 
-
     return (
         <>
-            <Table rowKey="uid" dataSource={data && data.allService} loading={loading} size="middle" columns={columns} 
-            pagination={{defaultPageSize: 5, pageSizeOptions: ['5', '10', '15', '20'], showSizeChanger: true}}  />
+            <h2>Sala de Espera</h2>
+            <Table rowKey="uid" dataSource={dataSala && dataSala.allServiceSala} loading={loadingSala} size="middle" columns={columnsTableSala}
+                pagination={{ defaultPageSize: 3, pageSizeOptions: ['3', '5', '10'], showSizeChanger: true }} />
+
+            <h2>Banho e Tosa</h2>
         </>
     )
 }

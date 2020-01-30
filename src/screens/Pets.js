@@ -36,7 +36,7 @@ function Pets() {
             <Row gutter={30}>
                 {pets.map((pet, i) => {
                     return (
-                        <Col span={4.5} key={i}>
+                        <Col span={8} key={i}>
                             <Card title={pet.pet} bordered={true} style={{ marginBottom: '10px' }}>
                                 Nome: {pet.name}
                                 <br />
