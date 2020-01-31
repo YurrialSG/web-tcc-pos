@@ -29,7 +29,7 @@ function Pets() {
         if (data) {
             setPets(data.allPets)
         }
-    })
+    }, [data])
 
     return (
         <div style={{ paddingTop: '15px' }}>

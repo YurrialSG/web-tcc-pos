@@ -88,11 +88,11 @@ function Admins() {
         <>
             {active ?
                 <>
-                    <Button type="danger" onClick={() => setActive(false)} 
-                    style={{ 
-                        marginBottom: 0, 
-                        float: "right",
-                        textAlign: "right"
+                    <Button type="danger" onClick={() => setActive(false)}
+                        style={{
+                            marginBottom: 0,
+                            float: "right",
+                            textAlign: "right"
                         }}>
                         X
                     </Button>
@@ -103,8 +103,8 @@ function Admins() {
                     Adicionar
                 </Button>
             }
-            <Table rowKey="uid" size="small" dataSource={data && data.allUsersAdmin} loading={loading} columns={columns} 
-            pagination={{defaultPageSize: 5, pageSizeOptions: ['5', '10', '15', '20'], showSizeChanger: true}} />
+            <Table rowKey="uid" size="small" dataSource={data && data.allUsersAdmin} loading={loading} columns={columns}
+                pagination={{ defaultPageSize: 5, pageSizeOptions: ['5', '10', '15', '20'], showSizeChanger: true }} />
         </>
     )
 }

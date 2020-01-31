@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Icon, Divider, Table, Button, Popconfirm, Tag } from 'antd'
+import { Icon, Divider, Table, Button, Popconfirm, Progress } from 'antd'
 import { useQuery } from 'react-apollo'
 import gql from 'graphql-tag'
 import imgCat from '../images/cat.png';
@@ -24,13 +24,15 @@ function Home() {
             key: 'status',
             render: status => (
                 status === 'PENDENTE' ?
-                    <Tag color={"volcano"} key={status} >
-                        {status}
-                    </Tag >
+                    <Progress
+                        strokeColor={{
+                            from: '#108ee9',
+                            to: '#87d068',
+                        }}
+                        percent={20} showInfo={false} status="active" />
                     :
-                    <Tag color={"green"} key={status} >
-                        {status}
-                    </Tag >
+                    <>
+                    </>
             )
         },
         {
@@ -40,16 +42,18 @@ function Home() {
             render: payment => (
                 payment === 'AGUARDANDO' ?
                     <>
-                        <Tag color={"purple"} key={payment} >
-                            {payment}
-                        </Tag >
+                        <Progress type="circle" percent={0} width={20} status="exception" />
                         <Divider type="vertical" />
-                        <Button><Icon type="pay-circle" style={{ color: '#108ee9' }} /> Pagar</Button>
+                        <Button onClick={handlePayment}><Icon type="dollar" style={{ color: '#108ee9' }} /> Pagar</Button>
                     </>
                     :
-                    <Tag color={"cyan"} key={payment} >
-                        {payment}
-                    </Tag >
+                    <>
+                        <Progress type="circle" percent={100} width={20} />
+                        <Divider type="vertical" />
+                        <Progress type="circle" percent={100} width={20} />
+                        <Divider type="vertical" />
+                        <Progress type="circle" percent={100} width={20} />
+                    </>
             )
         },
         {
@@ -113,6 +117,10 @@ function Home() {
     useEffect(() => {
         refetch()
     }, [refetch])
+
+    function handlePayment() {
+
+    }
 
 
     return (

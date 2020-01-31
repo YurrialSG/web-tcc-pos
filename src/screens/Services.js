@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
-import { Icon, Divider, Table, Button, Tag } from 'antd'
+import { Icon, Divider, Table, Button, Progress } from 'antd'
 import { useQuery } from 'react-apollo'
 import gql from 'graphql-tag'
-import imgCat from '../images/cat.png';
-import imgDog from '../images/dog.png';
 
 function Services() {
 
@@ -23,14 +21,16 @@ function Services() {
             dataIndex: 'status',
             key: 'status',
             render: status => (
-                status === 'PENDENTE' ?
-                    <Tag color={"volcano"} key={status} >
-                        {status}
-                    </Tag >
+                status === 'ESPERA' ?
+                    <Progress
+                        strokeColor={{
+                            from: '#108ee9',
+                            to: '#87d068',
+                        }}
+                        percent={40} showInfo={false} size="small" status="active" />
                     :
-                    <Tag color={"green"} key={status} >
-                        {status}
-                    </Tag >
+                    <>
+                    </>
             )
         },
         {
@@ -40,16 +40,15 @@ function Services() {
             render: payment => (
                 payment === 'AGUARDANDO' ?
                     <>
-                        <Tag color={"purple"} key={payment} >
-                            {payment}
-                        </Tag >
-                        <Divider type="vertical" />
-                        <Button><Icon type="pay-circle" style={{ color: '#108ee9' }} /> Pagar</Button>
                     </>
                     :
-                    <Tag color={"cyan"} key={payment} >
-                        {payment}
-                    </Tag >
+                    <>
+                        <Progress type="circle" percent={100} width={20} />
+                        <Divider type="vertical" />
+                        <Progress type="circle" percent={100} width={20} />
+                        <Divider type="vertical" />
+                        <Progress type="circle" percent={100} width={20} />
+                    </>
             )
         },
         {
@@ -63,23 +62,83 @@ function Services() {
             key: 'pet.breed',
         },
         {
-            title: 'Tipo',
-            dataIndex: 'pet.pet',
-            key: 'pet.pet',
-            render: pet => (
-                pet === 'CACHORRO' ?
-                    <img src={imgDog} alt="logo" style={{ width: "38px", height: "38px" }} />
-                    :
-                    <img src={imgCat} alt="logo" style={{ width: "38px", height: "38px" }} />
-            )
-        },
-        {
             title: 'Ações',
             key: 'action',
             render: (data) => (
                 <span>
-                    <Button><Icon type="play-circle" style={{ color: '#108ee9' }} /> Realizar Banho e Tosa</Button>
+                    <Button type="dashed" shape="round"><Icon type="scissor" style={{ color: '#108ee9' }} /> Tosa </Button>
+                    <Divider type="vertical" />
+                    <Button type="dashed" shape="round"><Icon type="box-plot" style={{ color: '#108ee9' }} /> Banho </Button>
                 </span>
+            )
+        },
+    ];
+
+    const columnsTableBanho = [
+        {
+            title: 'Data',
+            dataIndex: 'date',
+            key: 'date',
+        },
+        {
+            title: 'Horário',
+            dataIndex: 'schedule',
+            key: 'schedule',
+        },
+        {
+            title: 'Status',
+            dataIndex: 'status',
+            key: 'status',
+            render: status => (
+                status === 'BANHO' ?
+                    <Progress
+                        strokeColor={{
+                            from: '#108ee9',
+                            to: '#87d068',
+                        }}
+                        percent={100} showInfo={false} status="active" />
+                    :
+                    <>
+                    </>
+            )
+        },
+        {
+            title: 'Pagamento',
+            dataIndex: 'payment',
+            key: 'payment',
+            render: payment => (
+                payment === 'AGUARDANDO' ?
+                    <>
+                    </>
+                    :
+                    <>
+                        <Progress type="circle" percent={100} width={20} />
+                        <Divider type="vertical" />
+                        <Progress type="circle" percent={100} width={20} />
+                        <Divider type="vertical" />
+                        <Progress type="circle" percent={100} width={20} />
+                    </>
+            )
+        },
+        {
+            title: 'Pet',
+            dataIndex: 'pet.name',
+            key: 'pet.name',
+        },
+        {
+            title: 'Raça',
+            dataIndex: 'pet.breed',
+            key: 'pet.breed',
+        },
+        {
+            title: 'Ações',
+            dataIndex: 'payment',
+            render: payment => (
+                payment === 'PAGO' ?
+                    <Button type="primary"><Icon type="play-circle" style={{ color: '#FFFFFF' }} /> Finalizar Serviço</Button>
+                    :
+                    <>
+                    </>
             )
         },
     ];
@@ -103,6 +162,25 @@ function Services() {
         }
     `)
 
+    const { data: dataBanho, loadingBanho } = useQuery(gql`
+    query allServiceBanho {
+        allServiceBanho {
+            id
+            date
+            schedule
+            status
+            payment
+            pet {
+                id
+                name
+                age
+                breed
+                pet
+            }
+        }
+    }
+    `)
+
     useEffect(() => {
         refetch()
     }, [refetch])
@@ -113,7 +191,11 @@ function Services() {
             <Table rowKey="uid" dataSource={dataSala && dataSala.allServiceSala} loading={loadingSala} size="middle" columns={columnsTableSala}
                 pagination={{ defaultPageSize: 3, pageSizeOptions: ['3', '5', '10'], showSizeChanger: true }} />
 
-            <h2>Banho e Tosa</h2>
+            <h2>Realizando o Banho</h2>
+            <Table rowKey="uid" dataSource={dataBanho && dataBanho.allServiceBanho} loading={loadingBanho} size="middle" columns={columnsTableBanho}
+                pagination={{ defaultPageSize: 3, pageSizeOptions: ['3', '5', '10'], showSizeChanger: true }} />
+
+            <h2>Realizando a Tosa</h2>
         </>
     )
 }

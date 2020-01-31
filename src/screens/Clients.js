@@ -110,11 +110,11 @@ function Clients() {
         <>
             {active ?
                 <>
-                    <Button type="danger" onClick={() => setActive(false)} 
-                    style={{ 
-                        marginBottom: 0, 
-                        float: "right",
-                        textAlign: "right"
+                    <Button type="danger" onClick={() => setActive(false)}
+                        style={{
+                            marginBottom: 0,
+                            float: "right",
+                            textAlign: "right"
                         }}>
                         X
                     </Button>
@@ -125,8 +125,8 @@ function Clients() {
                     Adicionar
                 </Button>
             }
-            <Table rowKey="uid" dataSource={data && data.allUsers} loading={loading} columns={columns} 
-            pagination={{defaultPageSize: 5, pageSizeOptions: ['5', '10', '15', '20'], showSizeChanger: true}} />
+            <Table rowKey="uid" dataSource={data && data.allUsers} loading={loading} columns={columns}
+                pagination={{ defaultPageSize: 5, pageSizeOptions: ['5', '10', '15', '20'], showSizeChanger: true }} />
         </>
     )
 }
