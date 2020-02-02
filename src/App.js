@@ -10,7 +10,7 @@ import Home from './screens/Home';
 import Pets from './screens/Pets';
 import Clients from './screens/Clients';
 import Admins from './screens/Admins';
-import Services from './screens/Services';
+import Services from './screens/Services/index';
 import History from './screens/ServicesHistory';
 import Cancel from './screens/Cancel';
 

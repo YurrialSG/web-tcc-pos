@@ -1,16 +1,11 @@
 import React, { useEffect } from 'react'
-import { Icon, Divider, Table, Button, Popconfirm, Progress, notification } from 'antd'
+import { Icon, Divider, Table, Button, Progress, notification } from 'antd'
 import { useQuery, useMutation } from 'react-apollo'
-import { useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
-import imgCat from '../images/cat.png';
-import imgDog from '../images/dog.png';
 
-function Home() {
+function Grooming() {
 
-    const history = useHistory()
-
-    async function handleService(id, status, message) {
+    async function handleService(id, status) {
         const { errors } = await mutationUpdate({
             variables: {
                 id: id,
@@ -21,20 +16,8 @@ function Home() {
         })
 
         if (!errors) {
-            notification.success({
-                message: message,
-                style: {
-                    width: 300,
-                    marginLeft: 50,
-                    marginTop: 50,
-                },
-            })
-
-            if (status === "ESPERA") {
-                history.push('/services')
-            } else {
-                refetch()
-            }
+            refetch()
+            window.location.reload()
         }
     }
 
@@ -61,7 +44,7 @@ function Home() {
         }
     }
 
-    const columnsTablePendentes = [
+    const columnsTableTosa = [
         {
             title: 'Data',
             dataIndex: 'date',
@@ -77,13 +60,13 @@ function Home() {
             dataIndex: 'status',
             key: 'status',
             render: status => (
-                status === 'PENDENTE' ?
+                status === 'TOSA' ?
                     <Progress
                         strokeColor={{
                             from: '#108ee9',
                             to: '#87d068',
                         }}
-                        percent={20} showInfo={false} status="active" />
+                        percent={100} showInfo={false} status="active" />
                     :
                     <>
                     </>
@@ -93,12 +76,9 @@ function Home() {
             title: 'Pagamento',
             dataIndex: 'payment',
             key: 'payment',
-            render: (payment, data) => (
+            render: payment => (
                 payment === 'AGUARDANDO' ?
                     <>
-                        <Progress type="circle" percent={0} width={20} status="exception" />
-                        <Divider type="vertical" />
-                        <Button onClick={() => handlePay(data['id'])}><Icon type="dollar" style={{ color: '#108ee9' }} /> Pagar</Button>
                     </>
                     :
                     <>
@@ -121,37 +101,28 @@ function Home() {
             key: 'pet.breed',
         },
         {
-            title: 'Tipo',
-            dataIndex: 'pet.pet',
-            key: 'pet.pet',
-            render: pet => (
-                pet === 'CACHORRO' ?
-                    <img src={imgDog} alt="logo" style={{ width: "38px", height: "38px" }} />
-                    :
-                    <img src={imgCat} alt="logo" style={{ width: "38px", height: "38px" }} />
-            )
-        },
-        {
             title: 'Ações',
-            key: 'action',
-            render: (data) => (
-                <span>
-                    <Button onClick={() => handleService(data['id'], 'ESPERA', 'Pet em Sala de Espera!')}><Icon type="play-circle" style={{ color: '#108ee9' }} /> Iniciar Atendimento</Button>
-                    <Divider type="vertical" />
-                    <Popconfirm title="Certeza que deseja cancelar serviço?"
-                        placement="bottomRight"
-                        onConfirm={() => handleService(data['id'], 'CANCELADO', 'Serviço foi cancelado!')}
-                    >
-                        <Button><Icon type="close-circle" style={{ color: '#d32f2f' }} /> Cancelar</Button>
-                    </Popconfirm>
-                </span>
+            dataIndex: 'payment',
+            render: (payment, data) => (
+                payment === 'PAGO' ?
+                    <>
+                        <Button onClick={() => handleService(data['id'], 'CONCLUIDO')} type="primary"><Icon type="play-circle" style={{ color: '#FFFFFF' }} /> Finalizar Serviço</Button>
+                        <Divider type="vertical" />
+                        <Button onClick={() => handleService(data['id'], 'BANHO')} type="dashed" shape="round"><Icon type="scissor" style={{ color: '#108ee9' }} /> Banho </Button>
+                    </>
+                    :
+                    <>
+                        <Button onClick={() => handlePay(data['id'])}><Icon type="dollar" style={{ color: '#108ee9' }} /> Pagar</Button>
+                        <Divider type="vertical" />
+                        <Button onClick={() => handleService(data['id'], 'BANHO')} type="dashed" shape="round"><Icon type="scissor" style={{ color: '#108ee9' }} /> Banho </Button>
+                    </>
             )
         },
     ];
 
-    const { data: dataPendente, loading, refetch } = useQuery(gql`
-        query allServicePendente {
-            allServicePendente {
+    const { data: dataTosa, loadingTosa, refetch } = useQuery(gql`
+        query allServiceTosa {
+            allServiceTosa {
                 id
                 date
                 schedule
@@ -185,12 +156,12 @@ function Home() {
     }, [refetch])
 
     return (
-        <>
-            <h2>Lista de Serviços Pendentes</h2>
-            <Table rowKey="uid" dataSource={dataPendente && dataPendente.allServicePendente} loading={loading} size="middle" columns={columnsTablePendentes}
-                pagination={{ defaultPageSize: 5, pageSizeOptions: ['5', '10'], showSizeChanger: true }} />
-        </>
+        <div>
+            <h2>Tosa</h2>
+            <Table rowKey="uid" dataSource={dataTosa && dataTosa.allServiceTosa} loading={loadingTosa} size="middle" columns={columnsTableTosa}
+                pagination={{ defaultPageSize: 3, pageSizeOptions: ['3', '5', '10'], showSizeChanger: true }} />
+        </div>
     )
 }
 
-export default Home
+export default Grooming
