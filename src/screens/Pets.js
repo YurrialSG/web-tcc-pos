@@ -7,7 +7,7 @@ function Pets() {
 
     const [pets, setPets] = useState([]);
 
-    const { data } = useQuery(gql`
+    const { data, refetch } = useQuery(gql`
     query allPets {
         allPets {
             id
@@ -26,10 +26,11 @@ function Pets() {
 `)
 
     useEffect(() => {
+        refetch()
         if (data) {
             setPets(data.allPets)
         }
-    }, [data])
+    }, [data, refetch])
 
     return (
         <div style={{ paddingTop: '15px' }}>
@@ -37,13 +38,14 @@ function Pets() {
                 {pets.map((pet, i) => {
                     return (
                         <Col span={8} key={i}>
-                            <Card title={pet.pet} bordered={true} style={{ marginBottom: '10px' }}>
+                            <Card title={pet.user.firstname + " " + pet.user.lastname} bordered={true} style={{ marginBottom: '10px' }}>
+                                {pet.pet}
+                                <br />
                                 Nome: {pet.name}
                                 <br />
                                 Idade: {pet.age}
                                 <br />
                                 Raça: {pet.breed}
-                                <br />
                             </Card>
                         </Col>
                     )

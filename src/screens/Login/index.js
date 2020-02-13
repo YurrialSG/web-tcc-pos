@@ -69,7 +69,6 @@ function Index() {
                     password: password
                 }
             })
-            console.log(error)
             if (!error) {
                 if (data.signin != null) {
                     if (data.signin.user.role !== 'ADMIN') {
@@ -95,6 +94,7 @@ function Index() {
                     if (data.signin.token) {
                         localStorage.setItem('token', data.signin.token)
                         localStorage.setItem('user', JSON.stringify(data.signin.user))
+                        console.log(data.signin.token)
                         history.push('/home')
                         return
                     }

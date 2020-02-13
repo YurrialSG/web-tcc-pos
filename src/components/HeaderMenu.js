@@ -139,6 +139,8 @@ function HeaderMenu({ children }) {
     if (localStorage.getItem('token')) {
       localStorage.removeItem('user')
       localStorage.removeItem('token')
+      localStorage.clear()
+      console.log('Localstorage limpo')
     }
     history.push("*")
   }
