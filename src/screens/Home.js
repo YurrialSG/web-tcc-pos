@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Icon, Divider, Table, Button, Popconfirm, Progress, notification } from 'antd'
-import { useQuery, useMutation } from 'react-apollo'
+import { useQuery, useMutation, useSubscription } from 'react-apollo'
 import { useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
 import imgCat from '../images/cat.png';
@@ -149,7 +149,7 @@ function Home() {
         },
     ];
 
-    const { data: dataPendente, loading, refetch } = useQuery(gql`
+    const { data: dataPendente, loading, refetch, updateQuery } = useQuery(gql`
         query allServicePendente {
             allServicePendente {
                 id
@@ -168,17 +168,51 @@ function Home() {
         }
     `)
 
+    useSubscription(gql`
+    subscription {
+        onCreateServices{
+            id
+            date
+            schedule
+            status
+            payment
+            pet {
+                id
+                name
+                age
+                breed
+                pet
+            }
+        }
+    }
+    `, {
+        onSubscriptionData({ subscriptionData }) {
+            updateQuery((prev) => {
+                if (!subscriptionData.data) {
+                    return prev
+                }
+                console.log(prev)
+                return Object.assign({}, prev, {
+                    allServicePendente: [
+                        ...prev.allServicePendente,
+                        subscriptionData.data.onCreateServices
+                    ]
+                })
+            })
+        }
+    })
+
     const [mutationUpdate] = useMutation(gql`
         mutation updateService($id: ID! $data: UpdateServiceInput) {
-            updateService(id: $id, data: $data) {
-                id
-                date
-                schedule
-                status
-                payment
-            }
-        }  
-    `)
+        updateService(id: $id, data: $data) {
+            id
+            date
+            schedule
+            status
+            payment
+        }
+    }
+        `)
 
     useEffect(() => {
         refetch()
