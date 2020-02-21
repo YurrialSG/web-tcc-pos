@@ -115,6 +115,7 @@ function Bath() {
         {
             title: 'Ações',
             dataIndex: 'payment',
+            key: 'pay',
             render: (payment, data) => (
                 payment === 'PAGO' ?
                     <>
@@ -166,7 +167,7 @@ function Bath() {
     return (
         <div>
             <h2>Banho</h2>
-            <Table rowKey="uid" dataSource={dataBanho && dataBanho.allServiceBanho} loading={loadingBanho} size="middle" columns={columnsTableBanho}
+            <Table rowKey="id" dataSource={dataBanho && dataBanho.allServiceBanho} loading={loadingBanho} size="middle" columns={columnsTableBanho}
                 pagination={{ defaultPageSize: 3, pageSizeOptions: ['3', '5', '10'], showSizeChanger: true }} />
         </div>
     )

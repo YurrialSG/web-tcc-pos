@@ -221,7 +221,7 @@ function Home() {
     return (
         <>
             <h2>Lista de Serviços Pendentes</h2>
-            <Table rowKey="uid" dataSource={dataPendente && dataPendente.allServicePendente} loading={loading} size="middle" columns={columnsTablePendentes}
+            <Table rowKey="id" dataSource={dataPendente && dataPendente.allServicePendente} loading={loading} size="middle" columns={columnsTablePendentes}
                 pagination={{ defaultPageSize: 5, pageSizeOptions: ['5', '10'], showSizeChanger: true }} />
         </>
     )

@@ -22,7 +22,8 @@ function Index() {
 
     const [zip_code, setZip_code] = useState("");
     const [street, setStreet] = useState("");
-    const [number, setNumber] = useState(0);
+    const [number, setNumber] = useState();
+    const [complement, setComplement] = useState();
 
     // const [mutateCreateUser] = useMutation(gql`
     //     mutation createUser($data: CreateUserInput!) {
@@ -55,16 +56,18 @@ function Index() {
         setPassword("")
         setZip_code("")
         setStreet("")
-        setNumber(0)
+        setNumber()
+        setComplement()
     }
 
     async function handleSubmit(e) {
         e.preventDefault()
-        const { errors, data } = await mutateCreateAddress({
+        const { data } = await mutateCreateAddress({
             variables: {
                 data: {
                     street: street,
-                    number: number,
+                    number: parseInt(number),
+                    complement: complement === "" ? null : parseInt(complement),
                     zip_code: zip_code,
                 }
             }
@@ -82,10 +85,10 @@ function Index() {
         //     }
         // })
 
-        console.log(data)
+        console.log(data.createAddress)
         // console.log(dataCreateUser)
 
-        if (!errors) {
+        if (data.createAddress) {
             notification.success({
                 message: 'Usuário cadastrado com sucesso!'
             })
@@ -104,7 +107,7 @@ function Index() {
                             margin="normal"
                             required
                             id="firstname"
-                            label="Firstname"
+                            label="Nome"
                             name="firstname"
                             autoComplete="firstname"
                             size="medium"
@@ -116,7 +119,7 @@ function Index() {
                             margin="normal"
                             required
                             id="lastname"
-                            label="Lastname"
+                            label="Sobrenome"
                             name="lastname"
                             autoComplete="lastname"
                             size="medium"
@@ -129,7 +132,7 @@ function Index() {
                             margin="normal"
                             required
                             id="email"
-                            label="Email Address"
+                            label="E-mail"
                             name="email"
                             autoComplete="email"
                             size="medium"
@@ -140,7 +143,7 @@ function Index() {
                             margin="normal"
                             required
                             name="password"
-                            label="Password"
+                            label="Senha"
                             type="password"
                             id="password"
                             size="medium"
@@ -156,7 +159,7 @@ function Index() {
                                 margin="normal"
                                 required
                                 id="zip_code"
-                                label="Zip code"
+                                label="CEP"
                                 name="zip_code"
                                 autoComplete="zip_code"
                                 size="medium"
@@ -170,7 +173,7 @@ function Index() {
                                 margin="normal"
                                 required
                                 id="street"
-                                label="Street"
+                                label="Rua"
                                 name="street"
                                 autoComplete="street"
                                 size="medium"
@@ -183,8 +186,19 @@ function Index() {
                                 onChange={e => setNumber(e.target.value)}
                                 margin="normal"
                                 required
-                                id="number"
-                                label="Number"
+                                type="number"
+                                label="Número"
+                                size="medium"
+                                autoFocus
+                            />
+                        </div>
+                        <div>
+                            <TextFieldInputAddress
+                                value={complement}
+                                onChange={e => setComplement(e.target.value)}
+                                margin="normal"
+                                id="complement"
+                                label="Complemento"
                                 name="number"
                                 type="number"
                                 autoComplete="number"

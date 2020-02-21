@@ -97,7 +97,7 @@ function ServicesHistory() {
 
     return (
         <>
-            <Table rowKey="uid" dataSource={data && data.allServiceConcluido} loading={loading} size="middle" columns={columns}
+            <Table rowKey="id" dataSource={data && data.allServiceConcluido} loading={loading} size="middle" columns={columns}
                 pagination={{ defaultPageSize: 10, pageSizeOptions: ['10', '20', '30', '40', '50'], showSizeChanger: true }} />
         </>
     )

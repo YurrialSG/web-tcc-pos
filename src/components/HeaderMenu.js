@@ -185,7 +185,9 @@ function HeaderMenu({ children }) {
             <Icon type="history" />
             <span>Historico de Serviços</span>
           </Menu.Item>
-          <Divider type="horizontal" />
+          <Menu.Item>
+            <Divider type="horizontal" />
+          </Menu.Item>
           <Menu.Item className={classes.menuItens} key="7" onClick={handlePageAdmins}>
             <Icon type="dingding" />
             <span>Administradores</span>
@@ -203,9 +205,9 @@ function HeaderMenu({ children }) {
           />
           <div className={classes.divNameButton}>
             <span className={classes.nameUser}>{
-            JSON.parse(localStorage.getItem("user")).firstname
-            + " " +
-            JSON.parse(localStorage.getItem("user")).lastname
+              JSON.parse(localStorage.getItem("user")).firstname
+              + " " +
+              JSON.parse(localStorage.getItem("user")).lastname
             }</span>
             <Popconfirm title="Certeza que deseja sair?"
               placement="topRight"

@@ -128,7 +128,7 @@ function WaitingRoom() {
     return (
         <div>
             <h2>Sala de Espera</h2>
-            <Table rowKey="uid" dataSource={dataSala && dataSala.allServiceSala} loading={loadingSala} size="middle" columns={columnsTableSala}
+            <Table rowKey="id" dataSource={dataSala && dataSala.allServiceSala} loading={loadingSala} size="middle" columns={columnsTableSala}
                 pagination={{ defaultPageSize: 3, pageSizeOptions: ['3', '5', '10'], showSizeChanger: true }} />
         </div>
     )

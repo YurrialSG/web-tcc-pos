@@ -103,6 +103,7 @@ function Grooming() {
         {
             title: 'Ações',
             dataIndex: 'payment',
+            key: 'pay',
             render: (payment, data) => (
                 payment === 'PAGO' ?
                     <>
@@ -158,7 +159,7 @@ function Grooming() {
     return (
         <div>
             <h2>Tosa</h2>
-            <Table rowKey="uid" dataSource={dataTosa && dataTosa.allServiceTosa} loading={loadingTosa} size="middle" columns={columnsTableTosa}
+            <Table rowKey="id" dataSource={dataTosa && dataTosa.allServiceTosa} loading={loadingTosa} size="middle" columns={columnsTableTosa}
                 pagination={{ defaultPageSize: 3, pageSizeOptions: ['3', '5', '10'], showSizeChanger: true }} />
         </div>
     )

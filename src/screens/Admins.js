@@ -103,7 +103,7 @@ function Admins() {
                     Adicionar
                 </Button>
             }
-            <Table rowKey="uid" size="small" dataSource={data && data.allUsersAdmin} loading={loading} columns={columns}
+            <Table rowKey="id" size="small" dataSource={data && data.allUsersAdmin} loading={loading} columns={columns}
                 pagination={{ defaultPageSize: 5, pageSizeOptions: ['5', '10', '15', '20'], showSizeChanger: true }} />
         </>
     )

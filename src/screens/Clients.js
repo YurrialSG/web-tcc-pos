@@ -74,7 +74,7 @@ function Clients() {
         }
     }
 
-    const [active, setActive] = useState(false)
+    const [active, setActive] = useState(true)
 
     const { data, loading, refetch } = useQuery(gql`
         query allUsers {
@@ -125,7 +125,7 @@ function Clients() {
                     Adicionar
                 </Button>
             }
-            <Table rowKey="uid" dataSource={data && data.allUsers} loading={loading} columns={columns}
+            <Table rowKey="id" dataSource={data && data.allUsers} loading={loading} columns={columns}
                 pagination={{ defaultPageSize: 5, pageSizeOptions: ['5', '10', '15', '20'], showSizeChanger: true }} />
         </>
     )
