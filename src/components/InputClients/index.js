@@ -25,18 +25,6 @@ function Index() {
     const [number, setNumber] = useState();
     const [complement, setComplement] = useState();
 
-    // const [mutateCreateUser] = useMutation(gql`
-    //     mutation createUser($data: CreateUserInput!) {
-    //         createUser(data: $data) {
-    //             id
-    //             firstname
-    //             lastname
-    //             email
-    //             role
-    //         }
-    //     }
-    // `)
-
     const [mutateCreateAddress] = useMutation(gql`
         mutation createAddress($data: CreateAddressInput!) {
             createAddress(data: $data) {
@@ -45,6 +33,24 @@ function Index() {
                 number
                 complement
                 zip_code
+            }
+        }
+    `)
+
+    const [mutateCreateUser] = useMutation(gql`
+        mutation createUser($data: CreateUserInput!) {
+            createUser(data: $data) {
+                id
+                firstname
+                email
+                role
+                address {
+                    id
+                    street
+                    number
+                    complement
+                    zip_code
+                }
             }
         }
     `)
@@ -73,25 +79,29 @@ function Index() {
             }
         })
 
-        // const { errorsCreateUser, dataCreateUser } = await mutateCreateUser({
-        //     variables: {
-        //         data: {
-        //             firstname: firstname,
-        //             lastname: lastname,
-        //             email: email,
-        //             password: password,
-        //             role: "ADMIN"
-        //         }
-        //     }
-        // })
-
-        console.log(data.createAddress)
-        // console.log(dataCreateUser)
-
         if (data.createAddress) {
-            notification.success({
-                message: 'Usuário cadastrado com sucesso!'
+            const idAddress = data.createAddress.id
+            const { data: dataUser } = await mutateCreateUser({
+                variables: {
+                    data: {
+                        firstname: firstname,
+                        lastname: lastname,
+                        email: email,
+                        password: password,
+                        role: "USER",
+                        address: {
+                            id: idAddress
+                        }
+                    }
+                }
             })
+
+            if (dataUser.createUser) {
+                notification.success({
+                    message: 'Usuário cadastrado com sucesso!'
+                })
+                clear()
+            }
         }
     }
 

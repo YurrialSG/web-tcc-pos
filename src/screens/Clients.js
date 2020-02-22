@@ -74,7 +74,7 @@ function Clients() {
         }
     }
 
-    const [active, setActive] = useState(true)
+    const [active, setActive] = useState(false)
 
     const { data, loading, refetch } = useQuery(gql`
         query allUsers {
