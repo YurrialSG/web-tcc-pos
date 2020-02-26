@@ -23,11 +23,12 @@ const allLinks = split(
         return kind === 'OperationDefinition' && operation === 'subscription'
     },
     new WebSocketLink({
+        // https://pata-marca-api.herokuapp.com/
         uri: 'ws://localhost:4000/graphql',
         options: { reconnect: true },
     }),
     authLink.concat(new HttpLink({
-        uri: 'http://localhost:4000/graphql'
+        uri: 'https://pata-marca-api.herokuapp.com/'
     }))
 )
 
