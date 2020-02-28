@@ -24,7 +24,7 @@ const allLinks = split(
     },
     new WebSocketLink({
         // https://pata-marca-api.herokuapp.com/
-        uri: 'ws://pata-marca-api.herokuapp.com/graphql',
+        uri: 'ws://pata-marca-api.herokuapp.com/',
         options: { reconnect: true },
     }),
     authLink.concat(new HttpLink({
