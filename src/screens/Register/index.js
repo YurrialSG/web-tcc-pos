@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom'
-import { notification } from 'antd';
+import { notification, Spin } from 'antd';
 import { useMutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Button, TextField, Grid, Typography, Container } from '@material-ui/core/';
@@ -14,6 +14,7 @@ function Index() {
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const [mutate] = useMutation(gql`
         mutation createUser($data: CreateUserInput!) {
@@ -29,7 +30,7 @@ function Index() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-
+        setLoading(true)
         const { errors } = await mutate({
             variables: {
                 data: {
@@ -43,6 +44,7 @@ function Index() {
         })
 
         if (!errors) {
+            setLoading(false)
             notification.success({
                 message: 'Usuário cadastrado com sucesso!'
             })
@@ -57,8 +59,9 @@ function Index() {
                     <img src={logo} alt="logo" />
                 </AvatarImage>
                 <Typography component="h1" variant="h5">
-                    Sign up
+                    Pata Marca
                 </Typography>
+                <Spin size="large" spinning={loading} />
                 <FormRegister onSubmit={handleSubmit} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>

@@ -17,7 +17,7 @@ import {
 import { useMutation } from 'react-apollo'
 import { Link, useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
-import { notification } from 'antd';
+import { notification, Spin } from 'antd';
 import logo from '../../images/logo.png';
 
 function Copyright() {
@@ -40,6 +40,7 @@ function Index() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [submit, setSubmit] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [mutate] = useMutation(gql`
     mutation signin($email: String! $password: String!) {
@@ -59,8 +60,10 @@ function Index() {
         e.preventDefault()
 
         setSubmit(false)
+        setLoading(true)
 
         if (email === "" || password === "") {
+            setLoading(false)
             setSubmit(true)
         } else {
             const { error, data } = await mutate({
@@ -72,6 +75,7 @@ function Index() {
             if (!error) {
                 if (data.signin != null) {
                     if (data.signin.user.role !== 'ADMIN') {
+                        setLoading(false)
                         notification.error({
                             message: `Error`,
                             description: `Usuário sem permissão de acesso`,
@@ -82,6 +86,7 @@ function Index() {
                     }
 
                     if (!data.signin) {
+                        setLoading(false)
                         notification.error({
                             message: `Error`,
                             description: `Dados inválidos, tente novamente com outros dados`,
@@ -92,6 +97,7 @@ function Index() {
                     }
 
                     if (data.signin.token) {
+                        setLoading(false)
                         localStorage.setItem('token', data.signin.token)
                         localStorage.setItem('user', JSON.stringify(data.signin.user))
                         console.log(data.signin.token)
@@ -99,6 +105,7 @@ function Index() {
                         return
                     }
                 } else {
+                    setLoading(false)
                     notification.error({
                         message: `Error`,
                         description: `Dados inválidos, tente novamente com outros dados`,
@@ -123,8 +130,9 @@ function Index() {
                         <img src={logo} alt="logo" />
                     </AvatarImage>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Pata Marca
           </Typography>
+                    <Spin size="large" spinning={loading} />
                     <FormLogin onSubmit={handleSubmit} dark={submit === false ? "false" : "true"} noValidate>
                         <TextField
                             variant="outlined"
