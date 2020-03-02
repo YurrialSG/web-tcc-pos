@@ -23,7 +23,7 @@ const allLinks = split(
         return kind === 'OperationDefinition' && operation === 'subscription'
     },
     new WebSocketLink({
-        uri: 'ws://pata-marca-api.herokuapp.com/graphql',
+        uri: 'wss://pata-marca-api.herokuapp.com/graphql',
         // uri: 'ws://localhost:4000/graphql',
         options: { lazy: true },
     }),
