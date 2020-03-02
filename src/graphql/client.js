@@ -29,7 +29,7 @@ const allLinks = split(
     }),
     authLink.concat(new HttpLink({
         // uri: 'http://localhost:4000/graphql'
-        uri: 'http://pata-marca-api.herokuapp.com/graphql'
+        uri: 'https://pata-marca-api.herokuapp.com/graphql'
     }))
 )
 
