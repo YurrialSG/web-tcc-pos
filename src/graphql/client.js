@@ -1,11 +1,10 @@
-import { ApolloClient } from 'apollo-client'
+import { ApolloClient } from 'apollo-client';
 import { ApolloLink, split } from 'apollo-link';
 import { onError } from 'apollo-link-error';
 import { getMainDefinition } from 'apollo-utilities';
 import { WebSocketLink } from 'apollo-link-ws';
 import { HttpLink, InMemoryCache } from 'apollo-boost';
 import { setContext } from 'apollo-link-context';
-
 
 const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem('token')
